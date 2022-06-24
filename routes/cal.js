@@ -6,9 +6,10 @@ var bodyParser = require("body-parser");
 
 router.post("/create", function (req, res) {
   async function run() {
-    await template.createMasterCal(req, res);
-    template.addMasterCalHashtagsOnDB(req, res);
-    res.redirect("/");
+    let tempData = {};
+    await template.createMasterCal(req, res, tempData);
+    // template.addMasterCalHashtagsOnDB(req, res, tempData);
+    res.redirect("http://localhost:3000/");
   }
   run();
 });
@@ -35,6 +36,7 @@ router.get("/:Id", function (req, res) {
         // return by boolean
         data.subscribed = await template.checkSubscribed(req, res, calId);
       }
+      console.log("dataCa;", data);
       res.send(data);
     }
   );
@@ -83,8 +85,10 @@ router.post("/:Id/event/create", function (req, res) {
       async function run() {
         const calId = cal[0].calId;
         await template.addEventOnCal(req, res, calId);
-        res.redirect(`/cal/${req.params.Id}`);
+        console.log("건");
+        res.redirect(`http:localhost:3000/calendar/${req.params.Id}`);
       }
+      run();
     }
   );
 });
